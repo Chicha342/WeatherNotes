@@ -52,8 +52,17 @@ struct MainView: View {
                         }
                     }
                 
-                InfoSheet(isPresented: $viewModel.isShowAletrInfo)
+                InfoSheet(isPresented: $viewModel.isShowAletrInfo, viewModel: viewModel)
             }
+        }
+        .alert(isPresented: $viewModel.showError) {
+            Alert(
+                title: Text("Error"),
+                message: Text(viewModel.errorMessage),
+                dismissButton: .default(Text("OK")) {
+                    viewModel.showError = false
+                }
+            )
         }
     }
         

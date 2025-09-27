@@ -26,7 +26,9 @@ struct CustomSheet: View {
                             showAlert = true
                             return
                         }
-                        saveNote()
+                        viewModel.saveNote {
+                            dismiss()
+                        }
                     }
                     .foregroundColor(viewModel.blackTheme ? .orange : .blue)
                 }
@@ -50,41 +52,6 @@ struct CustomSheet: View {
         }
     }
     
-    private func saveNote() {
-        let currentDate = Date.now.formatted(date: .abbreviated, time: .omitted)
-        let currentTime = Date.now.formatted(date: .omitted, time: .shortened)
-        
-        
-        Task{
-            do{
-                let weather = try await viewModel.networkManager.fetchData()
-                let currentWeather = "\(Int(weather.main.temp))°C, \(weather.weather.first?.description ?? "Unknown")"
-                
-                viewModel.coreDataManager.addItem(id: UUID().uuidString,
-                                                  text: viewModel.text,
-                                                  date: currentDate,
-                                                  time: currentTime,
-                                                  weather: currentWeather)
-                
-                viewModel.notesArray = viewModel.coreDataManager.fetchData()
-                viewModel.text = ""
-                dismiss()
-            }catch{
-                print("Error loading weather data: \(error)")
-                
-                viewModel.coreDataManager.addItem(id: UUID().uuidString,
-                                                              text: viewModel.text,
-                                                              date: currentDate,
-                                                              time: currentTime,
-                                                              weather: "no data")
-                            
-                            viewModel.notesArray = viewModel.coreDataManager.fetchData()
-                            viewModel.text = ""
-                            dismiss()
-            }
-        }
-        
-    }
 }
 
 #Preview {

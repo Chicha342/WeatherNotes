@@ -8,11 +8,9 @@
 import SwiftUI
 
 struct InfoSheet: View {
-    
-    
     @Binding var isPresented: Bool
     
-    @StateObject private var viewModel = NoteViewModel()
+    @ObservedObject var viewModel: NoteViewModel
     
     var body: some View {
         VStack(spacing: 16) {
@@ -46,9 +44,18 @@ struct InfoSheet: View {
             .onAppear{
                 Task { await viewModel.weatherInfo() }
             }
+            .alert(isPresented: $viewModel.showError) {
+                Alert(
+                    title: Text("Error"),
+                    message: Text(viewModel.errorMessage),
+                    dismissButton: .default(Text("OK")) {
+                        viewModel.showError = false
+                    }
+                )
+            }
     }
 }
 
 #Preview {
-    InfoSheet(isPresented: .constant(true))
+    InfoSheet(isPresented: .constant(true), viewModel: NoteViewModel())
 }
