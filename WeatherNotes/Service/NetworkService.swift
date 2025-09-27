@@ -7,7 +7,7 @@
 
 import Foundation
 class NetworkService: ObservableObject {
-    let urlString = "https://api.openweathermap.org/data/2.5/weather?q=Kyiv&appid=dcbd7145cc36294ccc05322b508ed637&units=metric&lang=ru"
+    let urlString = "https://api.openweathermap.org/data/2.5/weather?q=Kyiv&appid=dcbd7145cc36294ccc05322b508ed637&units=metric&lang=eng"
     
     //dcbd7145cc36294ccc05322b508ed637
     //https://api.openweathermap.org/data/2.5/weather?q=Kyiv&appid=dcbd7145cc36294ccc05322b508ed637&units=metric&lang=ru

@@ -31,7 +31,7 @@ struct CustomHeader: View {
                         }
                         viewModel.defaults.set(viewModel.blackTheme, forKey: "theme")
                     } label: {
-                        Image(systemName: "sun.max.fill") //sun.max.fill //moon.fill
+                        Image(systemName: viewModel.blackTheme ? "moon.fill" : "sun.max.fill") //sun.max.fill //moon.fill
                             .resizable()
                             .foregroundStyle(viewModel.blackTheme ? .orange : .blue)
                             .frame(width: 18, height: 18)

@@ -20,6 +20,13 @@ class NoteViewModel: ObservableObject {
     @Published var networkManager = NetworkService()
     @Published var coreDataManager = CoreDataManager.shared
     
+    @Published var isShowAletrInfo: Bool = false
+    
+    @Published var temperature = ""
+    @Published var weatherCountry = ""
+    @Published var weatherDescription = ""
+    @Published var weatherIcon = ""
+    
     let defaults = UserDefaults.standard
     
     @Published var notesArray : [NoteModel] = []
@@ -31,5 +38,15 @@ class NoteViewModel: ObservableObject {
     func deleteNote(_ note: NoteModel) {
         coreDataManager.deleteItem(note)
         notesArray = coreDataManager.fetchData()
+    }
+    
+    func weatherInfo() async {
+        Task{
+            let weather = try await self.networkManager.fetchData()
+            self.temperature = "\(Int(weather.main.temp))°C"
+            self.weatherCountry = "\(weather.name)"
+            self.weatherDescription = "\(weather.weather.first?.description.capitalized ?? "No data")"
+            self.weatherIcon = "\(weather.weather.first?.icon ?? "01d")"
+        }
     }
 }
